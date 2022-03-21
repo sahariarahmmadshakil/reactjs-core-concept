@@ -9,38 +9,45 @@ function App() {
 
     // Code Main Body Start Here 
     <div className="App">
-      <ExternalUsers></ExternalUsers>
-    </div>
+      <LoadCountries></LoadCountries>
 
+    </div>
   );
 }
 
-
 // Function Start Here 
-
-function ExternalUsers() {
-  const [users, setUsers] = useState([]);
+function LoadCountries() {
+  const [countries, setCountries] = useState([]);
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://restcountries.com/v3.1/all')
       .then(res => res.json())
-      .then(data => setUsers(data))
-  }, []);
+      .then(data => setCountries(data))
+  }, [])
+
+
 
   return (
     <div>
-      <h1>External Users </h1>
-      <h2>Name: {users.length}</h2>
-      {users.map(user =><Users name={user.name} email={user.email}></Users>)}
-    </div>
-  )
+      <h3>All Country in the World</h3>
+      {
+        countries.map(country =>
+          <Country name={country.name.common} population={country.population}>
 
+          </Country>)
+      }
+
+    </div>
+  );
 }
-function Users(props){
-  return(
-<div style={{border: '2px solid red', margin: '15px'}}>
-  <h2>Name: {props.name}</h2>
-  <h2>Email: {props.email}</h2>
-</div>
+
+function Country(props) {
+  return (
+    <div>
+      <div className='country_overview'>
+        <h2>Name: {props.name}</h2>
+        <h4>Population: {props.population}</h4>
+      </div>
+    </div>
   )
 }
 
